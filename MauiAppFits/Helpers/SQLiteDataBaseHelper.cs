@@ -1,4 +1,5 @@
 ﻿using MauiAppFits.Models;
+using MauiAppFits.View;
 using SQLite;
 namespace MauiAppFits.Helpers
 
@@ -13,5 +14,54 @@ namespace MauiAppFits.Helpers
             _db = new SQLiteAsyncConnection(dbPath);
             _db.CreateTableAsync<Atividade>().Wait();
         }
+
+        public Task<List<Atividade>> GetAllRows()
+        {
+            return _db.Table<Atividade>().OrderByDescending(i => i.Id).ToListAsync();
+        }
+
+        public Task<Atividade> GetById(int id)
+        {
+            return _db.Table<Atividade>().FirstAsync(i => i.Id == id);
+        }
+
+        public Task<int> Insert(Atividade model)
+        {
+            return _db.InsertAsync(model);
+        }
+
+        public Task<List<Atividade>> Update(Atividade model)
+        {
+            string sql = "UPDATE Atividades SET Descricao = ?, Data=?, Page=?, Observacoes = ? WHERE Id = ?";
+
+            return _db.QueryAsync<Atividade>
+                (
+                  sql,
+                  model.Descricao,
+                  model.Data,
+                  model.Peso,
+                  model.Observacoes,
+                  model.Id
+                );
+        }
+
+        public Task<int> Delete(int id)
+        {
+            return _db.Table<Atividade>().DeleteAsync(i => i.Id == id);
+        }
+
+        public Task<List<Atividade>> Search(string q)
+        {
+            string sql = "SELECT * FROM Atividades " +
+                "WHERE Descricao LIKE '%'" + q + "'%'";
+
+            return _db.QueryAsync<Atividade>(sql);
+
+        }
+
+
     }
 }
+
+        
+
