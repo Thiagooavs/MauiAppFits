@@ -1,15 +1,32 @@
-﻿namespace MauiAppFits
+﻿using MauiAppFits.Helpers;
+using MauiAppFits.Models;
+namespace MauiAppFits
 {
     public partial class App : Application
     {
-        public App()
+        
+         static SQLiteDataBaseHelper database;
+
+        public static SQLiteDataBaseHelper DataBase
         {
-            InitializeComponent();
+            get
+            {
+                if (database == null)
+                {
+                    database = new SQLiteDataBaseHelper(
+                        Path.Combine(Environment.GetFolderPath(
+                            Environment.SpecialFolder.LocalApplicationData),
+                            "XamAppFit.db3"));
+
+                    
+                }
+                return database;
+            }
+            
+                               
         }
 
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
-        }
+
+        
     }
 }

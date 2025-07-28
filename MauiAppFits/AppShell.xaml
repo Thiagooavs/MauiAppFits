@@ -5,11 +5,32 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MauiAppFits"
     Shell.FlyoutBehavior="Flyout"
+    xmlns:Views="clr-namespace:MauiAppFits.View"
     Title="MauiAppFits">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Title="Nova Atividade" Icon="exercicio.png"
+             Route="CadastroAtividade">
+
+            <ShellContent>
+                <Views:CadastroAtividade
+                    Title="Cadastro de Atividade" />
+            </ShellContent>
+
+        </Tab>
+        <Tab Title="Minhas Atividades" Icon="meus_exercicios.png"
+             Route="MinhasAtividades">
+            <ShellContent>
+                <Views:ListaAtividade Title="Minhas Atividades" />
+            </ShellContent>
+        </Tab>
+        <Tab Title="Sobre" Icon="sobre.png">
+            <ShellContent>
+                <Views:Sobre Title="Sobre o App"/>
+            </ShellContent>
+        </Tab>
+    </TabBar>
+
+    
 
 </Shell>
